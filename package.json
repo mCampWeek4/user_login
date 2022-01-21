@@ -1,0 +1,26 @@
+{
+  "name": "user_login",
+  "version": "1.0.0",
+  "description": "user login for madcamp4",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mCampWeek4/user_login.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mCampWeek4/user_login/issues"
+  },
+  "homepage": "https://github.com/mCampWeek4/user_login#readme",
+  "dependencies": {
+    "@adminjs/express": "^4.0.1",
+    "adminjs": "^5.5.1",
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.13.0"
+  }
+}
