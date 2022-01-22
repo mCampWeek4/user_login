@@ -8,23 +8,32 @@ const AdminJSSequelize = require('@adminjs/sequelize')
 
 AdminJS.registerAdapter(AdminJSSequelize);
 
-const models = require('./models/index.js')
-const User = require('./models/User');
+var models = require('./models/index.js')
+//var User = require('./models/User');
 
 const adminJs = new AdminJS({
-  databases: [models],
-  rootPath: '/admin',
+    rootPath: '/admin',
+    logoutPath: '/admin/exit',
+    loginPath: '/admin/login',
+    databases: [models],
+    resources: [{
+        resource: models.User,
+        options: {
+            listProperties: ['id', 'userid', 'password', 'salt', 'isAdmin']
+        }
+    }]
 });
 
-//const router = AdminJSExpress.buildRouter(adminJs);
+const router = AdminJSExpress.buildRouter(adminJs);
+/*
 const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
     authenticate: async(userid, password) => {
-        if(User.password === password && User.userid === userid && User.isAdmin === 1) {
-            return User;
+        if(models.User.compareHashPassword(password, models.User.password, models.User.salt) && models.User.userid === userid && models.User.isAdmin === 1) {
+            return models.User;
         }
         return null
     }
-});
+});*/
 
 app.use(adminJs.options.rootPath, router)
 
@@ -40,4 +49,3 @@ var port = 8000;
 app.listen(port, function() {
     console.log('Server on! At http://127.0.0.1:' + port);
 })
-

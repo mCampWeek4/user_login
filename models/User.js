@@ -1,8 +1,9 @@
 // models/User.js
 var crypto = require('crypto');
+var sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define("Uses", {
+    const User = sequelize.define("User", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -16,18 +17,12 @@ module.exports = (sequelize, DataTypes) => {
             required: true
         },
         password: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(65),
             allowNull: false,
             required: true,
-            get() {
-                return () => this.getDataValue('password')
-            }
         },
         salt: {
-            type: DataTypes.STRING,
-            get() {
-                return () => this.getDataValue('salt')
-            }
+            type: DataTypes.STRING(65),
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
