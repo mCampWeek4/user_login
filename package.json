@@ -18,6 +18,7 @@
   "homepage": "https://github.com/mCampWeek4/user_login#readme",
   "dependencies": {
     "@adminjs/express": "^4.0.1",
+    "@adminjs/sequelize": "^2.1.0",
     "adminjs": "^5.5.1",
     "express": "^4.17.2",
     "mysql2": "^2.3.3",
