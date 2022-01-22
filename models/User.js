@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     // hashing password
-    const createSalt = () =>
+    User.createSalt = () =>
         new Promise((resolve, reject) => {
             crypto.randomBytes(64, (err, buf) => {
                 if (err) reject(err);
@@ -44,32 +44,34 @@ module.exports = (sequelize, DataTypes) => {
             });
         });
 
-    const createHashedPassword = (plainPassword) =>
+    User.createHashedPassword = (plainPassword) =>
         new Promise(async (resolve, reject) => {
-            const salt = await createSalt();
+            const salt = await User.createSalt();
             crypto.pbkdf2(plainPassword, salt, 72277, 64, 'sha512', (err, key) => {
                 if (err) reject(err);
                 resolve({ password: key.toString('base64'), salt });
             });
         });
 
-    const compareHashPassword = function (curPassword, oriPassword, salt) {
-        crypto.pbkdf2(curPassword, salt, 72277, 64, 'sha512', (err, key) => {
-            if (err) reject(err);
-            return (key.toString('base64') == oriPassword);
+    User.compareHashPassword = (curPassword, oriPassword, salt) =>
+        new Promise(async (resolve, reject) => {
+            crypto.pbkdf2(curPassword, salt, 72277, 64, 'sha512', (err, key) => {
+                if (err) reject(err);
+                return (key.toString('base64') == oriPassword);
+            });
         });
-    }
+        
 
-    const setSaltAndPassword = async function(user) {
+    User.setSaltAndPassword = async function(user) {
         if(user.changed('password')) {
-            const {password, salt} = await createHashedPassword(user.password());
+            const {password, salt} = await User.createHashedPassword(user.password);
             user.password = password;
             user.salt = salt;
         }
     }
 
-    User.beforeCreate(setSaltAndPassword);
-    User.beforeUpdate(setSaltAndPassword);
+    User.beforeCreate(User.setSaltAndPassword);
+    User.beforeUpdate(User.setSaltAndPassword);
 
     return User;
 };

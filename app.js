@@ -4,12 +4,13 @@ var app = express();
 
 const AdminJS = require('adminjs');
 const AdminJSExpress = require('@adminjs/express');
-const AdminJSSequelize = require('@adminjs/sequelize')
+AdminJS.registerAdapter(require('@adminjs/sequelize'));
 
-AdminJS.registerAdapter(AdminJSSequelize);
+const models = require('./models/index.js');
 
-var models = require('./models/index.js')
-//var User = require('./models/User');
+//var flash = require('connect-flash');
+var passport = require('passport');
+const passportConfig = require('./config/passport')
 
 const adminJs = new AdminJS({
     rootPath: '/admin',
@@ -19,21 +20,33 @@ const adminJs = new AdminJS({
     resources: [{
         resource: models.User,
         options: {
-            listProperties: ['id', 'userid', 'password', 'salt', 'isAdmin']
+            properties: {
+                name: {
+                    isVisible: {list: true, filter: false, show: true, edit: true},
+                }
+            },
+            listProperties: ['id', 'userid', 'password', 'salt', 'isAdmin'],
+            showProperties: ['id', 'userid', 'password', 'salt', 'isAdmin'],
+            editProperties: ['userid', 'password', 'isAdmin']
         }
     }]
 });
 
-const router = AdminJSExpress.buildRouter(adminJs);
-/*
+// const router = AdminJSExpress.buildRouter(adminJs);
+
 const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
-    authenticate: async(userid, password) => {
-        if(models.User.compareHashPassword(password, models.User.password, models.User.salt) && models.User.userid === userid && models.User.isAdmin === 1) {
-            return models.User;
+    authenticate: async (userid, password) => {
+        const user = await models.User.findOne({ where: {userid: userid}});
+        if(user) {
+            const matched = models.User.compareHashPassword(password, user.password, user.salt);
+            if(matched && user.isAdmin) {
+                return user;
+            }
         }
-        return null
-    }
-});*/
+        return false;
+    },
+    cookiePassword: 'testtest'
+});
 
 app.use(adminJs.options.rootPath, router)
 
@@ -43,6 +56,17 @@ models.sequelize.sync().then( () => {
     console.log("DB Connect Fail!");
     console.log(err);
 });
+
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+//app.use(flash());
+
+// passport
+app.use(passport.initialize());
+passportConfig();
+
+// routers
+app.use('/', require('./routes/home'));
 
 // running
 var port = 8000;
