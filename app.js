@@ -65,6 +65,7 @@ passportConfig();
 
 // routers
 app.use('/', require('./routes/home'));
+app.use('/user', require('./routes/user'));
 app.use('/fridge', require('./routes/fridge'));
 
 // running

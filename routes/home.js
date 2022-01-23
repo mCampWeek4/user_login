@@ -2,9 +2,9 @@
 
 const express = require('express');
 const router = express.Router();
-const models = require('../models/index.js')
-const passport = require('passport');
+const models = require('../models/index.js');
 
+const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const secretObj = require('../config/jwt');
 
@@ -40,10 +40,10 @@ router.post("/login", (req, res, next) => {
                 }
                 // 클라이언트에게 JWT생성 후 반환
                 const token = jwt.sign(
-                    { name: user.name },
+                    { id: user.id, name: user.name },
                     secretObj.secret,
                     {
-                        expiresIn: '5m'
+                        expiresIn: '30m'
                     }
                 );
                 res.json({ token: token });
@@ -51,7 +51,7 @@ router.post("/login", (req, res, next) => {
         })(req, res, next);
     }
     else {
-        req.flash('errors',errors);
+        //req.flash('errors',errors);
         res.redirect('/login');
     }
 });

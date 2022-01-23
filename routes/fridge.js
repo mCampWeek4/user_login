@@ -3,12 +3,11 @@
 const express = require('express');
 const models = require('../models/index.js');
 const router = express.Router();
-const sequelize = require('sequelize');
-const op = sequelize.Op;
+const passport = require('passport');
 
 // 내 냉장고의 재료 보는 페이지 get
 // 내 재료와 모든 재료의 list를 반환
-router.get('/ingredient', async (req, res) => {
+router.get('/ingredient', passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         var errors = {};
         var isValid = true;
@@ -42,7 +41,7 @@ router.get('/ingredient', async (req, res) => {
     }
 });
 
-router.post('/ingredient/add', async(req, res) => {
+router.post('/ingredient/add', passport.authenticate('jwt', {session: false}), async(req, res) => {
     try{
         var errors = {};
         var isValid = true;
@@ -63,19 +62,19 @@ router.post('/ingredient/add', async(req, res) => {
             await models.Refrigerator.create({
                 userIdFridge: uid,
                 ingredientIdFridge: iid
-            })
+            });
             res.send('insert successs');  
         }
         else {
             //req.flash('errors',errors);
         }
-        res.redirect('/ingredient');
+        res.redirect('/fridge/ingredient');
     } catch (err) {
         console.error(err);
     }
 });
 
-router.post('/ingredient/delete', async(req, res) => {
+router.post('/ingredient/delete', passport.authenticate('jwt', {session: false}), async(req, res) => {
     try {
         var errors = {};
         var isValid = true;
@@ -104,11 +103,10 @@ router.post('/ingredient/delete', async(req, res) => {
         else {
             //req.flash('errors',errors);
         }
-        res.redirect('/ingredient');
+        res.redirect('/fridge/ingredient');
     } catch (err) {
         console.error(err);
     }
 });
 
 module.exports = router;
-
