@@ -1,6 +1,5 @@
 // models/User.js
 var crypto = require('crypto');
-var sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("User", {
@@ -8,8 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
-            autoIncrement: true,
-            required: true
+            autoIncrement: true
         },
         userid: {
             type: DataTypes.STRING(21),
@@ -17,12 +15,12 @@ module.exports = (sequelize, DataTypes) => {
             required: true
         },
         password: {
-            type: DataTypes.STRING(65),
+            type: DataTypes.STRING,
             allowNull: false,
             required: true,
         },
         salt: {
-            type: DataTypes.STRING(65),
+            type: DataTypes.STRING,
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
@@ -72,6 +70,11 @@ module.exports = (sequelize, DataTypes) => {
 
     User.beforeCreate(User.setSaltAndPassword);
     User.beforeUpdate(User.setSaltAndPassword);
+
+    User.associate = (models) => {
+        models.User.hasMany(models.Refrigerator, { foreignKey: 'userIdFridge', sourceKey: 'id' });
+        models.User.hasMany(models.Refrigerator, { foreignKey: 'userIdFridge', sourceKey: 'id' });
+    }
 
     return User;
 };

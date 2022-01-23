@@ -32,7 +32,7 @@ const adminJs = new AdminJS({
     }]
 });
 
-// const router = AdminJSExpress.buildRouter(adminJs);
+//const router = AdminJSExpress.buildRouter(adminJs);
 
 const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
     authenticate: async (userid, password) => {
@@ -71,5 +71,5 @@ app.use('/', require('./routes/home'));
 // running
 var port = 8000;
 app.listen(port, function() {
-    console.log('Server on! At http://127.0.0.1:' + port);
+    console.log('Server on! At http://127.0.0.1:' + port + '/admin');
 })

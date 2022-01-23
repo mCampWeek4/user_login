@@ -10,9 +10,7 @@ router.get("/login", (req, res) => {
 
 });
 
-router.post("/login", (req, res, next) => {
-    console.log(req.body);
-    
+router.post("/login", (req, res, next) => {    
     var errors = {};
     var isValid = true;
 
