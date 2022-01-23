@@ -27,7 +27,9 @@ const adminJs = new AdminJS({
     }]
 });
 
+// option 1 : when admin page without login
 const router = AdminJSExpress.buildRouter(adminJs);
+// option 2 : when admin page need login to use
 /*
 const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
     authenticate: async (userid, password) => {
@@ -52,6 +54,7 @@ models.sequelize.sync().then( () => {
     console.log(err);
 });
 
+// body-parser n flash
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 //app.use(flash());
@@ -62,6 +65,7 @@ passportConfig();
 
 // routers
 app.use('/', require('./routes/home'));
+app.use('/fridge', require('./routes/fridge'));
 
 // running
 var port = 8000;
