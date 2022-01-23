@@ -6,13 +6,14 @@ module.exports = (sequelize, DataTypes) => {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
+            autoIncrement: true,
             allowNull: false,
-            autoIncrement: true
         },
-        userid: {
+        name: {
             type: DataTypes.STRING(21),
             allowNull: false,
-            required: true
+            required: true,
+            unique: true
         },
         password: {
             type: DataTypes.STRING,
@@ -28,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
             required: true
         }
     }, {
-            underscored: true,
-            freezeTableName: true,
-            tableName: "user"
+        underscored: true,
+        freezeTableName: true,
+        tableName: "user"
     });
 
     // hashing password
@@ -72,7 +73,6 @@ module.exports = (sequelize, DataTypes) => {
     User.beforeUpdate(User.setSaltAndPassword);
 
     User.associate = (models) => {
-        models.User.hasMany(models.Refrigerator, { foreignKey: 'userIdFridge', sourceKey: 'id' });
         models.User.hasMany(models.Refrigerator, { foreignKey: 'userIdFridge', sourceKey: 'id' });
     }
 

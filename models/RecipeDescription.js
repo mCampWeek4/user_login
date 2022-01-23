@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             allowNull: false,
         },
-        foodName: {
+        name: {
             type: DataTypes.STRING(31),
             allowNull: false,
             unique: true
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     RecipeDescription.associate = (models) => {
-        models.RecipeDescription.hasMany(models.RecipeIngredient, { foreignKey: 'decriptionIdRecipe', sourceKey: 'id' });
+        models.RecipeDescription.hasMany(models.RecipeIngredient, { foreignKey: 'descriptionIdRecipe', sourceKey: 'id' });
     }
 
     return RecipeDescription;

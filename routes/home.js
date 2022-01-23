@@ -14,9 +14,9 @@ router.post("/login", (req, res, next) => {
     var errors = {};
     var isValid = true;
 
-    if(!req.body.userid) {
+    if(!req.body.name) {
         isValid = false;
-        errors.userid = 'ID is required!';
+        errors.name = 'ID is required!';
     }
     if(!req.body.password) {
         isValid = false;
@@ -38,7 +38,7 @@ router.post("/login", (req, res, next) => {
                 }
                 // 클라이언트에게 JWT생성 후 반환
                 const token = jwt.sign(
-                    { userid: user.userid },
+                    { name: user.name },
                     secretObj.secret,
                     {
                         expiresIn: '5m'

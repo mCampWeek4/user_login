@@ -20,20 +20,15 @@ const adminJs = new AdminJS({
     resources: [{
         resource: models.User,
         options: {
-            properties: {
-                name: {
-                    isVisible: {list: true, filter: false, show: true, edit: true},
-                }
-            },
-            listProperties: ['id', 'userid', 'password', 'salt', 'isAdmin'],
-            showProperties: ['id', 'userid', 'password', 'salt', 'isAdmin'],
-            editProperties: ['userid', 'password', 'isAdmin']
+            listProperties: ['id', 'name', 'password', 'salt', 'isAdmin'],
+            showProperties: ['id', 'name', 'password', 'salt', 'isAdmin'],
+            editProperties: ['name', 'password', 'isAdmin']
         }
     }]
 });
 
-//const router = AdminJSExpress.buildRouter(adminJs);
-
+const router = AdminJSExpress.buildRouter(adminJs);
+/*
 const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
     authenticate: async (userid, password) => {
         const user = await models.User.findOne({ where: {userid: userid}});
@@ -46,7 +41,7 @@ const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
         return false;
     },
     cookiePassword: 'testtest'
-});
+});*/
 
 app.use(adminJs.options.rootPath, router)
 

@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     RecipeIngredient.associate = (models) => {
-        models.RecipeIngredient.belongsTo(models.RecipeDescription, { foreignKey: 'decriptionIdRecipe', targetKey: 'id' });
+        models.RecipeIngredient.belongsTo(models.RecipeDescription, { foreignKey: 'descriptionIdRecipe', targetKey: 'id' });
         models.RecipeIngredient.belongsTo(models.Ingredient, { foreignKey: 'ingredientIdRecipe', targetKey: 'id' });
     }
 
