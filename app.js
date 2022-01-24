@@ -70,7 +70,6 @@ app.use('/fridge', require('./routes/fridge'));
 app.use('/food', require('./routes/food'));
 app.use('/ingredient', require('./routes/ingredient'));
 app.use('/recipe', require('./routes/recipe'));
-aaa
 
 // running
 var port = 443;
