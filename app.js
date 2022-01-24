@@ -47,7 +47,7 @@ const router = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
 
 app.use(adminJs.options.rootPath, router)
 
-models.sequelize.sync().then( () => {
+models.sequelize.sync().then(() => {
     console.log("DB Connect Success!");
 }).catch((err) => {
     console.log("DB Connect Fail!");
@@ -56,7 +56,7 @@ models.sequelize.sync().then( () => {
 
 // body-parser n flash
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 //app.use(flash());
 
 // passport
@@ -69,9 +69,10 @@ app.use('/user', require('./routes/user'));
 app.use('/fridge', require('./routes/fridge'));
 app.use('/food', require('./routes/food'));
 app.use('/ingredient', require('./routes/ingredient'));
+app.use('/recipe', require('./routes/recipe'));
 
 // running
-var port = 8000;
+var port = 443;
 app.listen(port, function() {
     console.log('Server on! At http://127.0.0.1:' + port + '/admin');
 })
