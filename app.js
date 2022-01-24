@@ -67,6 +67,8 @@ passportConfig();
 app.use('/', require('./routes/home'));
 app.use('/user', require('./routes/user'));
 app.use('/fridge', require('./routes/fridge'));
+app.use('/food', require('./routes/food'));
+app.use('/ingredient', require('./routes/ingredient'));
 
 // running
 var port = 8000;
