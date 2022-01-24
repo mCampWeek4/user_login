@@ -43,6 +43,7 @@ router.post('/ingredient', passport.authenticate('jwt', {session: false}), async
 });
 
 router.post('/ingredient/add', passport.authenticate('jwt', {session: false}), async(req, res) => {
+    console.log("post at /ingredient/add");
     try{
         var errors = {};
         var isValid = true;
@@ -64,7 +65,7 @@ router.post('/ingredient/add', passport.authenticate('jwt', {session: false}), a
                 userIdFridge: uid,
                 ingredientIdFridge: iid
             });
-            res.send('insert successs');  
+            res.send( '{"result": "Success"}' );  
         }
         else {
             //req.flash('errors',errors);
@@ -76,6 +77,7 @@ router.post('/ingredient/add', passport.authenticate('jwt', {session: false}), a
 });
 
 router.post('/ingredient/delete', passport.authenticate('jwt', {session: false}), async(req, res) => {
+    console.log("post at /ingredient/delete");
     try {
         var errors = {};
         var isValid = true;
@@ -99,7 +101,7 @@ router.post('/ingredient/delete', passport.authenticate('jwt', {session: false})
                     ingredientIdFridge: iid,
                 }
             });
-            res.send('delete successs');
+            res.send( '{"result": "Success"}' );  
         }
         else {
             //req.flash('errors',errors);

@@ -12,6 +12,7 @@ router.get('/new', (req, res) => {
 
 // 회원가입 처리
 router.post('/new', async (req, res) => {
+    console.log("post at /user/new");
     try {
         var errors = {};
         var isValid = true;
@@ -51,6 +52,7 @@ router.get('/:name/edit', passport.authenticate('jwt', {session: false}), (req, 
 });
 
 router.post('/:name/edit', passport.authenticate('jwt', {session: false}), async (req, res) => { 
+    console.log("post at /:name/edit");
     try {
         var errors = {};
         var isValid = true;

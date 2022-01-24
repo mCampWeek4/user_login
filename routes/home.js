@@ -12,7 +12,8 @@ router.get("/login", (req, res) => {
 
 });
 
-router.post("/login", (req, res, next) => {    
+router.post("/login", (req, res, next) => {
+    console.log("post at /login");
     var errors = {};
     var isValid = true;
 

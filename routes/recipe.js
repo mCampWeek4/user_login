@@ -7,6 +7,7 @@ const sequelize = require('sequelize');
 const router = express.Router();
 
 const getRecipe = async(req, res) => {
+    console.log("post at /recipe");
     try {
         const ingredient = req.body.ingredientIdString;
         const level = req.body.levelString;
@@ -15,7 +16,6 @@ const getRecipe = async(req, res) => {
         const myIngredients = ingredient.split('.');
         const myLevel = level.split('.');
         const len = parseInt(myIngredients, 10)
-        console.log(myIngredients);
 
         const matchedRecipe = await models.RecipeIngredient.findAll({
             attributes: ['description_id_recipe', [sequelize.fn('COUNT', sequelize.col('ingredient_id_recipe')), 'total']],
@@ -44,6 +44,6 @@ const getRecipe = async(req, res) => {
     }
 }
 
-router.get('/', passport.authenticate('jwt', { session: false }), getRecipe);
+router.post('/', passport.authenticate('jwt', { session: false }), getRecipe);
 
 module.exports = router;

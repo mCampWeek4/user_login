@@ -6,6 +6,7 @@ const router = express.Router();
 const passport = require('passport');
 
 router.get('/', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log("get at /ingredient");
     try {
         const allIngredient = await models.Ingredient.findAll({});
         res.send(allIngredient);
@@ -15,10 +16,11 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
 });
 
 router.get('/:foodId',  passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log("get at /ingredient/:foodId");
     try {
         const foodId = parseInt(req.params.foodId, 10);
 
-        constfoodIngredient = await models.RecipeIngredient.findAll({
+        const foodIngredient = await models.RecipeIngredient.findAll({
             where: {
                 descriptionIdRecipe: foodId
             },
