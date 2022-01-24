@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../models/index.js');
+const passport = require('passport');
 
 // 회원가입 창
 router.get('/new', (req, res) => {
@@ -49,7 +50,7 @@ router.get('/:name/edit', passport.authenticate('jwt', {session: false}), (req, 
 
 });
 
-router.post('/:name/edit', passport.authenticate('jwt', {session: false}), (req, res) => { 
+router.post('/:name/edit', passport.authenticate('jwt', {session: false}), async (req, res) => { 
     try {
         var errors = {};
         var isValid = true;
