@@ -7,7 +7,8 @@ const passport = require('passport');
 
 // 내 냉장고의 재료 보는 페이지 get
 // 내 재료와 모든 재료의 list를 반환
-router.get('/ingredient', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/ingredient', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log("post at /ingredient");
     try {
         var errors = {};
         var isValid = true;

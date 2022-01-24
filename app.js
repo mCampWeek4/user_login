@@ -1,6 +1,7 @@
 // app.js
 var express = require('express');
 var app = express();
+const cors = require('cors');
 
 const AdminJS = require('adminjs');
 const AdminJSExpress = require('@adminjs/express');
@@ -58,6 +59,8 @@ models.sequelize.sync().then(() => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //app.use(flash());
+
+app.use(cors());
 
 // passport
 app.use(passport.initialize());
