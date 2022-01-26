@@ -13,12 +13,12 @@ const getRecipe = async(req, res) => {
         const level = req.body.levelString;
         const myTime = parseInt(req.body.time, 10);
 
-        const myIngredients = ingredient.split('.');
-        const myLevel = level.split('.');
+        const myIngredients = ingredient.split(',');
+        const myLevel = level.split(',');
         const len = parseInt(myIngredients, 10)
 
         const matchedRecipe = await models.RecipeIngredient.findAll({
-            attributes: ['description_id_recipe', [sequelize.fn('COUNT', sequelize.col('ingredient_id_recipe')), 'total']],
+            attributes: ['description_id_recipe', [sequelize.fn('COUNT', sequelize.col('ingredient_id_recipe')), 'total'] ],
             include: models.RecipeDescription,
             where: {
                 '$RecipeDescription.level$': {
@@ -44,6 +44,33 @@ const getRecipe = async(req, res) => {
     }
 }
 
+const getMoreInfo = async(req, res) => {
+    console.log("get more info");
+    try {
+        const ingredient = req.body.ingredientIdString;
+        const foodId = req.body.description_id_recipe;
+        const myIngredients = ingredient.split(',');
+
+        const ids = await models.RecipeIngredient.findAll({
+            include: {
+                model: models.Ingredient,
+                attributes: ['name']
+            },
+            where: {
+                descriptionIdRecipe: foodId,
+                ingredientIdRecipe: {
+                    [Op.notIn]: myIngredients
+                }       
+            },
+            attributes : []
+        });
+        res.send(ids);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 router.post('/', passport.authenticate('jwt', { session: false }), getRecipe);
+router.post('/more', passport.authenticate('jwt', { session: false }), getMoreInfo);
 
 module.exports = router;

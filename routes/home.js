@@ -28,7 +28,7 @@ router.post("/login", (req, res, next) => {
 
     if(isValid){
         passport.authenticate('local-login', (passportError, user, info) => {
-            if (passportError) {
+            if (passportError || !user) {
                 res.status(400).json({ message: info.reason });
                 return;
             }
@@ -44,10 +44,10 @@ router.post("/login", (req, res, next) => {
                     { id: user.id, name: user.name },
                     secretObj.secret,
                     {
-                        expiresIn: '30m'
+                        expiresIn: '1d'
                     }
                 );
-                res.json({ token: token });
+                res.json({ id: user.id, name: user.name, token: token });
             });
         })(req, res, next);
     }

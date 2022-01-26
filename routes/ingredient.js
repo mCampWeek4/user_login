@@ -15,6 +15,18 @@ router.get('/', passport.authenticate('jwt', {session: false}), async (req, res)
     }
 });
 
+router.get('/onlyid', passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log("get at /ingredient/onlyid");
+    try {
+        const allIngredient = await models.Ingredient.findAll({
+            attributes : ['id']
+        });
+        res.send(allIngredient);
+    } catch(err) {
+        console.error(err);
+    }
+});
+
 router.get('/:foodId',  passport.authenticate('jwt', {session: false}), async (req, res) => {
     console.log("get at /ingredient/:foodId");
     try {
@@ -28,6 +40,23 @@ router.get('/:foodId',  passport.authenticate('jwt', {session: false}), async (r
         });
 
         res.send(foodIngredient);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+router.get('/specific/:ingredientId',  passport.authenticate('jwt', {session: false}), async (req, res) => {
+    console.log("get at /specific/:ingredientId");
+    try {
+        const ingredientId = parseInt(req.params.ingredientId, 10);
+
+        const ingredients = await models.Ingredient.findAll({
+            where: {
+                id: ingredientId
+            }
+        });
+
+        res.send(ingredients);
     } catch (err) {
         console.error(err);
     }

@@ -26,11 +26,8 @@ router.post('/ingredient', passport.authenticate('jwt', {session: false}), async
                 where: {userIdFridge: uid}
             })
 
-            var allIng = await models.Ingredient.findAll();
-
             res.send({
-                'myIngredient': myIng,
-                'allIngredient': allIng
+                'myIngredient': myIng
             });
         }
         else {
@@ -68,7 +65,7 @@ router.post('/ingredient/add', passport.authenticate('jwt', {session: false}), a
             res.send( '{"result": "Success"}' );  
         }
         else {
-            //req.flash('errors',errors);
+            res.send(errors);
         }
         res.redirect('/fridge/ingredient');
     } catch (err) {

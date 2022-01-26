@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
         new Promise(async (resolve, reject) => {
             crypto.pbkdf2(curPassword, salt, 72277, 64, 'sha512', (err, key) => {
                 if (err) reject(err);
-                return (key.toString('base64') == oriPassword);
+                resolve(key.toString('base64') == oriPassword);
             });
         });
         
